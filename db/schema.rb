@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_23_154735) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_23_190027) do
+  create_table "responses", force: :cascade do |t|
+    t.boolean "answer", null: false
+    t.datetime "created_at", null: false
+    t.integer "survey_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["survey_id"], name: "index_responses_on_survey_id"
+  end
+
   create_table "surveys", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "question", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_foreign_key "responses", "surveys"
 end
