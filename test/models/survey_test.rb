@@ -10,4 +10,16 @@ class SurveyTest < ActiveSupport::TestCase
     survey = Survey.new(question: nil)
     assert_not survey.valid?
   end
+
+  test "has many responses" do
+    survey = surveys(:ruby_dead)
+    assert_equal 2, survey.responses.count
+  end
+
+  test "destroys its responses when destroyed" do
+    survey = surveys(:ruby_dead)
+    assert_difference -> { Response.count }, -2 do
+      survey.destroy
+    end
+  end
 end

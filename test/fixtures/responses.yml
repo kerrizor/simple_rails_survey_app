@@ -1,0 +1,11 @@
+ruby_dead_true:
+  survey: ruby_dead
+  answer: true
+
+ruby_dead_false:
+  survey: ruby_dead
+  answer: false
+
+likes_coffee_true:
+  survey: likes_coffee
+  answer: true
