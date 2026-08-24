@@ -1,0 +1,20 @@
+<h1>Surveys</h1>
+
+<%# TODO: wire this link to new_survey_path in the create-flow slice %>
+<%= link_to "New Survey", "#" %>
+
+<ul>
+  <% @surveys.each do |survey| %>
+    <li>
+      <h2><%= survey.question %></h2>
+
+      <% if survey.response_count.zero? %>
+        <p>No responses yet</p>
+      <% else %>
+        <%# Model speaks true/false; the UI applies the Yes/No meaning. %>
+        <p>Yes: <%= survey.percentage_for(true) %>%</p>
+        <p>No: <%= survey.percentage_for(false) %>%</p>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
