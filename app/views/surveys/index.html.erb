@@ -1,7 +1,6 @@
 <h1>Surveys</h1>
 
-<%# TODO: wire this link to new_survey_path in the create-flow slice %>
-<%= link_to "New Survey", "#" %>
+<%= link_to "New Survey", new_survey_path %>
 
 <ul>
   <% @surveys.each do |survey| %>

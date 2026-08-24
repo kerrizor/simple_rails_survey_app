@@ -20,7 +20,7 @@ class SurveysControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "index has a link to create a new survey" do
-    assert_select "a", text: /New Survey/
+    assert_select "a[href=?]", new_survey_path, text: /New Survey/
   end
 
   # Fun with minitest... This test can't rely solely on the shared setup: it
@@ -34,5 +34,35 @@ class SurveysControllerTest < ActionDispatch::IntegrationTest
     get root_path
 
     assert_select "body", text: /No responses yet/
+  end
+
+  # new / create
+  #
+  test "new renders the form" do
+    get new_survey_path
+
+    assert_response :success
+    assert_select "form"
+  end
+
+  test "create saves a survey and redirects home" do
+    assert_difference -> { Survey.count }, 1 do
+      post surveys_path, params: { survey: { question: "New question?" } }
+    end
+
+    assert_redirected_to root_path
+
+    follow_redirect!
+    assert_select "[data-flash=notice]", text: /Survey created/
+  end
+
+  test "create re-renders new when invalid" do
+    assert_no_difference -> { Survey.count } do
+      post surveys_path, params: { survey: { question: "" } }
+    end
+
+    assert_response :unprocessable_content
+    assert_select "[role=alert]", text: /couldn't be saved/
+    assert_select "[role=alert] li", text: /Question can't be blank/
   end
 end
